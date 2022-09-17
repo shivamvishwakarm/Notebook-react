@@ -10,9 +10,9 @@ const JWT_SECRET = "THISISJWTSECRET"
 
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login require
 router.post('/createuser',[
-    body('name', 'Enter a valid name').isLength({ min: 3 }),
-    body('email', 'Enter a valid email').isEmail(),
-    body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
+    body('name', 'Enter a valid name').isLength({ min: 3 }), // name of the user is must have minimum 3 character
+    body('email', 'Enter a valid email').isEmail(), // Checking is email is email
+    body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }), // User password is must have 5 characters
 ] , async (req, res)=>{ 
   // If there are errors, return Bad request and the errors
     const errors = validationResult(req);
@@ -23,12 +23,13 @@ router.post('/createuser',[
 
     try{
 
-    let user = await User.findOne({email:req.body.email});
+    let user = await User.findOne({email:req.body.email}); // find the user using email in the database
+    // Checking user exist or not
     if(user){
       return res.status(400).json({error: "sorrry a user with this email already exists"});
     }
 
-    const salt =  bcrypt.genSaltSync(10);
+    const salt =  bcrypt.genSaltSync(10); // Creating salt for hashing the password
     const securePass =  bcrypt.hashSync(req.body.password, salt); //hashing the password
 
     // Creating the user 
@@ -40,7 +41,7 @@ router.post('/createuser',[
     
       const data = {
         user:{
-          id : user.id
+          id : user.id // sign the id to the user
         }
       }
       const authtoken = jwt.sign(data,JWT_SECRET); // signing the authtoken to the user with jwt web token
@@ -58,8 +59,8 @@ router.post('/createuser',[
 
 // ROUTE 2: authenticate a User using: POST "/api/auth/login". No login require
 router.post('/login',[
-  body('email', 'Enter a valid email').isEmail(),
-  body('password', 'Password can not be blank').exists(),
+  body('email', 'Enter a valid email').isEmail(),  // Checking the is email is email
+  body('password', 'Password can not be blank').exists(), //Checking is the user fill the password section or not 
 ] , async (req, res)=>{
 // If there are errors, return Bad request and the errors
 const errors = validationResult(req);
