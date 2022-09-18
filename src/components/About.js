@@ -1,7 +1,12 @@
-import React from 'react'
+import React from 'react';
+
+
 
 export const About = () => {
+
   return (
-    <div>This is about</div>
+    <div>
+       This is about 
+    </div>
   )
 }
