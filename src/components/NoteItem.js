@@ -8,11 +8,16 @@ export const NoteItem = (props) => {
         <div className="col-md-3">
             <div class="card my-3">
                 <div class="card-body">
-                    <h5 class="card-title">{title}</h5>
-                    <p class="card-text">{description}</p>
+                    <div className="d-flex align-item-center">
+                        <h5 class="card-title">{title} </h5>
+                        <i class="fa fa-edit mx-2 "></i>
+                        <i class="fa fa-trash-alt mx-2"></i>
+                    </div>
+                        <p class="card-text">{description}</p>
                 </div>
             </div>
         </div>
+
 
     )
 }
